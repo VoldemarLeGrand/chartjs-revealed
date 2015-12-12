@@ -11,31 +11,31 @@ var RevealChartjs = window.RevealChartjs || (function(){
     options.libUrl = options.libUrl || 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js';
 
     head.js(options.libUrl, function() {
-
-        var data = [
-            {
-                value: 300,
-                color:"#F7464A",
-                highlight: "#FF5A5E",
-                label: "Red"
-            },
-            {
-                value: 50,
-                color: "#46BFBD",
-                highlight: "#5AD3D1",
-                label: "Green"
-            },
-            {
-                value: 100,
-                color: "#FDB45C",
-                highlight: "#FFC870",
-                label: "Yellow"
-            }
-        ];
-        var ctx = document.getElementById("chart-example").getContext("2d");
-        var chart = new Chart(ctx);
-        var doughnut = chart.Doughnut(data, { })
-
+        Reveal.addEventListener("slidechanged", function(event){
+            var data = [
+                {
+                    value: 300,
+                    color:"#F7464A",
+                    highlight: "#FF5A5E",
+                    label: "Red"
+                },
+                {
+                    value: 50,
+                    color: "#46BFBD",
+                    highlight: "#5AD3D1",
+                    label: "Green"
+                },
+                {
+                    value: 100,
+                    color: "#FDB45C",
+                    highlight: "#FFC870",
+                    label: "Yellow"
+                }
+            ];
+            var ctx = document.getElementById("chart-example").getContext("2d");
+            var chart = new Chart(ctx);
+            var doughnut = chart.Doughnut(data, { })
+        });
     });
 
 })();
