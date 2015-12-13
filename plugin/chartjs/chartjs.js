@@ -14,7 +14,7 @@ var RevealChartjs = window.RevealChartjs || (function(){
         var charts = findAllCharts(document);
 
         Reveal.addEventListener("slidechanged", function(event){
-            for (var i = charts.length - 1; i >= 0; i--) {
+            for (var i=0; i<charts.length; i++) {
                 var chart = charts[i];
                 if(event.currentSlide === chart.slide) {
                     // Execute drawing function passing the current chart as this
