@@ -86,4 +86,4 @@ Reveal.initialize({
 
 ## License
 
-Plugin is released under the BSD License. See [LICENSE](https://github.com/VoldemarLeGrand/chartjs-revealed/LICENSE) file for details.
+Plugin is released under the BSD License. See [LICENSE](https://github.com/VoldemarLeGrand/chartjs-revealed/blob/master/LICENSE) file for details.
