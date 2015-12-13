@@ -11,10 +11,14 @@ var RevealChartjs = window.RevealChartjs || (function(){
     options.libUrl = options.libUrl || 'https://cdnjs.cloudflare.com/ajax/libs/Chart.js/1.0.2/Chart.js';
 
     head.js(options.libUrl, function() {
+        var charts = findAllCharts(document);
+
         Reveal.addEventListener("slidechanged", function(event){
-            if(event.currentSlide.id == "chart") {
-                drawChart(document.getElementById("chart-example"));
-            }
+            for (var i = charts.length - 1; i >= 0; i--) {
+                if(event.currentSlide === charts[i].slide) {
+                    drawChart(charts[i].canvas);
+                }
+            };
         })
     });
 
@@ -43,5 +47,25 @@ var RevealChartjs = window.RevealChartjs || (function(){
         var chart = new Chart(ctx);
         var doughnut = chart.Doughnut(data, { })
     };
+
+    function findAllCharts(document) {
+        var charts = [];
+        var canvases = document.querySelectorAll( "[data-chartjs]" );
+        for(var i=0; i<canvases.length; i++) {
+            var slide = findAncestorByTagName(canvases[i], "section");
+            if(slide) {
+                charts.push({
+                    slide:  slide,
+                    canvas: canvases[i]
+                });
+            }
+        }
+        return charts;
+    }
+
+    function findAncestorByTagName(elt, tagName) {
+        while ((elt = elt.parentElement) && !elt.tagName==tagName);
+        return elt;
+    }
 
 })();
