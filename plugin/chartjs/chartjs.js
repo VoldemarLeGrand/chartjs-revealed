@@ -60,7 +60,8 @@ var RevealChartjs = window.RevealChartjs || (function(){
                     charts.push({
                         slide:  slide,
                         canvas: canvas,
-                        draw: drawFunction
+                        chart:  new Chart(canvas.getContext("2d")),
+                        draw:   drawFunction
                     });
                 }
             }
