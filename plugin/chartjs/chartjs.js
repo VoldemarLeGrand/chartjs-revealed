@@ -15,49 +15,36 @@ var RevealChartjs = window.RevealChartjs || (function(){
 
         Reveal.addEventListener("slidechanged", function(event){
             for (var i = charts.length - 1; i >= 0; i--) {
-                if(event.currentSlide === charts[i].slide) {
-                    drawChart(charts[i].canvas);
+                var chart = charts[i];
+                if(event.currentSlide === chart.slide) {
+                    // Execute drawing function passing the current chart as this
+                    chart.draw.apply(chart);
                 }
             };
         })
     });
 
-    function drawChart(canvas) {
-        var data = [
-            {
-                value: 300,
-                color:"#F7464A",
-                highlight: "#FF5A5E",
-                label: "Red"
-            },
-            {
-                value: 50,
-                color: "#46BFBD",
-                highlight: "#5AD3D1",
-                label: "Green"
-            },
-            {
-                value: 100,
-                color: "#FDB45C",
-                highlight: "#FFC870",
-                label: "Yellow"
-            }
-        ];
-        var ctx = canvas.getContext("2d");
-        var chart = new Chart(ctx);
-        var doughnut = chart.Doughnut(data, { })
-    };
-
     function findAllCharts(document) {
         var charts = [];
         var canvases = document.querySelectorAll( "[data-chartjs]" );
         for(var i=0; i<canvases.length; i++) {
-            var slide = findAncestorByTagName(canvases[i], "section");
+            var canvas = canvases[i];
+            var slide = findAncestorByTagName(canvas, "section");
             if(slide) {
-                charts.push({
-                    slide:  slide,
-                    canvas: canvases[i]
-                });
+                var drawFunction;
+                try {
+                    drawFunction = Function(canvases[i].textContent);
+                }catch(ex){
+                    // Ignore a "compilation" error, and so ignore the chart
+                }
+
+                if(drawFunction) {
+                    charts.push({
+                        slide:  slide,
+                        canvas: canvas,
+                        draw: drawFunction
+                    });
+                }
             }
         }
         return charts;
