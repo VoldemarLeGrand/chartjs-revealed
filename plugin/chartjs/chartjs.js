@@ -21,7 +21,7 @@ var RevealChartjs = window.RevealChartjs || (function(){
                     chart.draw.apply(chart);
                 }
             };
-        })
+        });
     });
 
     function findAllCharts(document) {
