@@ -22,6 +22,24 @@ var RevealChartjs = window.RevealChartjs || (function(){
                 }
             };
         });
+
+
+        // First of all, draw charts of the current slide
+        for (var i=0; i<charts.length; i++) {
+            var chart = charts[i];
+            if(chart.slide.classList.contains("present")) {
+                chart.draw.apply(chart);
+            }
+        };
+        // Then we pass to charts of all other slides
+        // Should do it to make charts visible on zoom view
+        for (var i=0; i<charts.length; i++) {
+            var chart = charts[i];
+            if(!chart.slide.classList.contains("present")) {
+                chart.draw.apply(chart);
+            }
+        };
+
     });
 
     function findAllCharts(document) {
