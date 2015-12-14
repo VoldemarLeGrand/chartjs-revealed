@@ -25,10 +25,12 @@ Plugin provide a simple way to integrate [Chart.js](http://www.chartjs.org/) cha
                 label: "Yellow"
             }
         ];
-        this.chart.Doughnut(data);
+        return this.chart.Doughnut(data);
     </canvas>
 </section>
 ```
+
+Code inside the `<canvas>` tag should define a chart using `this.chart` object and return this chart.
 
 
 
@@ -61,7 +63,8 @@ JavaScript code inside `<canvas>` is executed with `this` value pointed to chart
   * `canvas` : corresponding `<canvas>` element
   * `chart` : [`Chart`](http://www.chartjs.org/docs/#getting-started-creating-a-chart) object created for given `<canvas>`
   * `slide` : corresponding `<section>` element
-  * `draw` : draw function compiled from `<canvas>` element text content
+  * `def` : define function compiled from `<canvas>` element text content
+  * `engine` : chart created by define function, used to redraw a chart
 
 
 

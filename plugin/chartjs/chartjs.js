@@ -18,7 +18,7 @@ var RevealChartjs = window.RevealChartjs || (function(){
                 var chart = charts[i];
                 if(event.currentSlide === chart.slide) {
                     // Execute drawing function passing the current chart as this
-                    chart.draw.apply(chart);
+                    chart.engine.render();
                 }
             };
         });
@@ -28,7 +28,7 @@ var RevealChartjs = window.RevealChartjs || (function(){
         for (var i=0; i<charts.length; i++) {
             var chart = charts[i];
             if(chart.slide.classList.contains("present")) {
-                chart.draw.apply(chart);
+                chart.engine.render();
             }
         };
         // Then we pass to charts of all other slides
@@ -36,7 +36,7 @@ var RevealChartjs = window.RevealChartjs || (function(){
         for (var i=0; i<charts.length; i++) {
             var chart = charts[i];
             if(!chart.slide.classList.contains("present")) {
-                chart.draw.apply(chart);
+                chart.engine.render();
             }
         };
 
@@ -49,21 +49,25 @@ var RevealChartjs = window.RevealChartjs || (function(){
             var canvas = canvases[i];
             var slide = findAncestorByTagName(canvas, "section");
             if(slide) {
-                var drawFunction;
+                var defFunction;
                 try {
-                    drawFunction = Function(canvases[i].textContent);
+                    defFunction = Function(canvases[i].textContent);
                 }catch(ex){
                     // Ignore a "compilation" error, and so ignore the chart
                 }
 
-                if(drawFunction) {
-                    charts.push({
+                if(defFunction) {
+                    var chart = {
                         slide:  slide,
                         canvas: canvas,
                         chart:  new Chart(canvas.getContext("2d")),
-                        draw:   drawFunction
-                    });
+                        def:    defFunction,
+                    };
+                    chart.engine = defFunction.apply(chart);
+                    charts.push(chart);
                 }
+
+
             }
         }
         return charts;
